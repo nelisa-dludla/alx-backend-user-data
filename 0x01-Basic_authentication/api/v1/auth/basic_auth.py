@@ -7,12 +7,15 @@ import base64
 from typing import TypeVar
 from models.user import User
 from api.v1.auth.auth import Auth
+import binascii
+
 
 class BasicAuth:
     '''
     The BasicAuth class defined
     '''
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(
+            self, authorization_header: str) -> str:
         '''
         Returns the Base64 part of the Authorization header
         '''
@@ -28,8 +31,8 @@ class BasicAuth:
         header_parts = authorization_header.split(" ")
         return header_parts[1]
 
-
-    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:                                                          
+    def decode_base64_authorization_header(
+            self, base64_authorization_header: str) -> str:
         '''
         Returns decode value of Base64 string
         '''
@@ -42,11 +45,11 @@ class BasicAuth:
         try:
             decoded_bytes = base64.b64decode(base64_authorization_header)
             return decoded_bytes.decode('utf-8')
-        except:
+        except binascii.Error:
             return None
 
-
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):
+    def extract_user_credentials(
+            self, decoded_base64_authorization_header: str) -> (str, str):
         '''
         Returns user email and password from the Base64
         decoded value
@@ -64,8 +67,8 @@ class BasicAuth:
         email, password = header_parts
         return (email, password)
 
-
-    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
         '''
         Returns User instance
         '''
@@ -86,14 +89,15 @@ class BasicAuth:
 
         return user
 
-
     def current_user(self, request=None) -> TypeVar('User'):
         '''
         Retrieves the User instance for a request
         '''
         authorization_header = Auth.authorization_header(request)
-        extracted_base64_header = self.extract_base64_authorization_header(authorization_header)
-        decoded_base64_header = self.decode_base64_authorization_header(extracted_base64_header)
+        extracted_base64_header = self.extract_base64_authorization_header(
+                authorization_header)
+        decoded_base64_header = self.decode_base64_authorization_header(
+                extracted_base64_header)
         email, password = self.extract_user_credentials(decoded_base64_header)
         user = self.user_object_from_credentials(email, password)
 
