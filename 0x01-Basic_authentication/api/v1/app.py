@@ -23,6 +23,9 @@ if auth_type:
 
 @app.before_request
 def before_request():
+    '''
+    To be ran before request is processed
+    '''
     if auth:
         excluded_paths = ['/api/v1/status/',
                           '/api/v1/unauthorized/',
