@@ -27,6 +27,12 @@ class Auth:
             if path in excluded_paths:
                 return False
         else:
+            if path.endswith("*"):
+                path_partial = path.split('*')
+                for excluded_path in excluded_paths:
+                    if path_partial[0] in excluded_path:
+                        return False
+
             path += "/"
             if path in excluded_paths:
                 return False
