@@ -10,7 +10,7 @@ from api.v1.auth.auth import Auth
 import binascii
 
 
-class BasicAuth:
+class BasicAuth(Auth):
     '''
     The BasicAuth class defined
     '''
@@ -45,7 +45,7 @@ class BasicAuth:
         try:
             decoded_bytes = base64.b64decode(base64_authorization_header)
             return decoded_bytes.decode('utf-8')
-        except binascii.Error:
+        except Exception:
             return None
 
     def extract_user_credentials(
@@ -93,7 +93,7 @@ class BasicAuth:
         '''
         Retrieves the User instance for a request
         '''
-        authorization_header = Auth.authorization_header(request)
+        authorization_header = self.authorization_header(request)
         extracted_base64_header = self.extract_base64_authorization_header(
                 authorization_header)
         decoded_base64_header = self.decode_base64_authorization_header(
