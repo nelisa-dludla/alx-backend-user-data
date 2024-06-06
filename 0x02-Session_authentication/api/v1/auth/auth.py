@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+''' This module defines the auth class
+'''
+
+from typing import List, TypeVar
+from flask import jsonify, request
+
+
+class Auth:
+    '''
+    The auth class defined
+    '''
+
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        '''
+        Returns:
+            - True if path not in excluded_paths
+            - False if path in excluded_paths
+        '''
+        if path is None:
+            return True
+
+        if excluded_paths is None or excluded_paths == []:
+            return True
+
+        if path.endswith("/"):
+            if path in excluded_paths:
+                return False
+        else:
+            if path.endswith("*"):
+                path_partial = path.split('*')
+                for excluded_path in excluded_paths:
+                    if path_partial[0] in excluded_path:
+                        return False
+
+            path += "/"
+            if path in excluded_paths:
+                return False
+
+        return True
+
+    def authorization_header(self, request=None) -> str:
+        '''
+        Returns the request
+        '''
+        if request is None:
+            return None
+
+        return request.headers.get("Authorization")
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        '''
+        Returns information on the current user
+        '''
+        return None
+
+    def session_cookie(self, request=None):
+        '''
+        Returns a cookie value from a request
+        '''
+        if not request:
+            return None
+
+        return request.cookies.get('_my_session_id')
