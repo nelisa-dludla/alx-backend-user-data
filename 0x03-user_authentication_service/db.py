@@ -47,22 +47,31 @@ class DB:
     def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
         '''Find user by kwargs
         '''
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if not user:
+                raise NoResultFound
+        except TypeError:
+            raise InvalidRequestError
 
         return user
 
     def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
         '''Updates user by user_id and kwargs
         '''
-        try:
-            result = self._session.query(User).filter_by(id=user_id).first()
-            for k, v in kwargs.items():
-                setattr(result, k, v)
+        COLUMNS = ['id',
+                   'email',
+                   'hashed_password',
+                   'session_id',
+                   'reset_token']
 
-            self._session.commit()
-        except TypeError:
-            raise ValueError
+        result = self._session.query(User).filter_by(id=user_id).first()
+        for k, v in kwargs.items():
+            if k in COLUMNS:
+                setattr(result, k, v)
+            else:
+                raise ValueError
+
+        self._session.commit()
 
         return None
