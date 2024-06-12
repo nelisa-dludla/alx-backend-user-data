@@ -9,6 +9,14 @@ from db import DB
 from user import User
 
 
+def _hash_password(password: str) -> bytes:
+    '''Returns a hashed version of argument password
+    '''
+    hashed_password = hashpw(password.encode('utf-8'), gensalt(rounds=12))
+
+    return hashed_password
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -94,11 +102,3 @@ class Auth:
             self._db._session.commit()
 
         raise ValueError
-
-
-def _hash_password(password: str) -> bytes:
-    '''Returns a hashed version of argument password
-    '''
-    hashed_password = hashpw(password.encode('utf-8'), gensalt(rounds=12))
-
-    return hashed_password
