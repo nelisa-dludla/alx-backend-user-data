@@ -47,13 +47,13 @@ class DB:
         '''Find user by kwargs
         '''
         try:
-            result = self._session.query(User).filter_by(**kwargs).first()
-            if not result:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if not user:
                 raise NoResultFound
         except TypeError:
             raise InvalidRequestError
 
-        return result
+        return user
 
     def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
         '''Updates user by user_id and kwargs
