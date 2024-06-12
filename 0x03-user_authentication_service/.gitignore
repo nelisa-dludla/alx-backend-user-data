@@ -6,3 +6,4 @@ add_user_test.py
 find_user_test.py
 update_user_test.py
 hash_password_test.py
+register_user_test.py
