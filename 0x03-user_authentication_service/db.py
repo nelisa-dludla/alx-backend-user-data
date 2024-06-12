@@ -7,7 +7,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import NoResultFound, InvalidRequestError
 
 from user import Base
 from user import User
@@ -46,6 +45,7 @@ class DB:
     def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
         '''Find user by kwargs
         '''
+        from sqlalchemy.exc import NoResultFound, InvalidRequestError
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if not user:
