@@ -2,7 +2,6 @@
 '''Defines Auth class
 '''
 
-from typing import Any
 import uuid
 from bcrypt import hashpw, gensalt, checkpw
 from db import DB
