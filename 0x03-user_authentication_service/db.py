@@ -45,7 +45,9 @@ class DB:
     def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
         '''Find user by kwargs
         '''
-        from sqlalchemy.exc import NoResultFound, InvalidRequestError
+        from sqlalchemy.exc import InvalidRequestError
+        from sqlalchemy.orm.exc import NoResultFound
+
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if not user:
