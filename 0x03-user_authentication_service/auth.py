@@ -9,7 +9,7 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
 
-def _hash_password(password: str) -> str:
+def _hash_password(password: str) -> bytes:
     '''Returns a hashed version of argument password
     '''
     hashed_password = hashpw(password.encode('utf-8'), gensalt(rounds=12))
