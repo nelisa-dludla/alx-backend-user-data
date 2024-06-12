@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """DB module
 """
 from typing import Any, Dict
