@@ -47,9 +47,12 @@ class DB:
     def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
         '''Find user by kwargs
         '''
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if not user:
+                raise NoResultFound
+        except TypeError:
+            raise InvalidRequestError
 
         return user
 
