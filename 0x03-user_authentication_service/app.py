@@ -45,7 +45,6 @@ def login():
     password = request.form.get('password')
 
     valid_user = AUTH.valid_login(email, password)
-    print(valid_user)
     if valid_user:
         session_id = AUTH.create_session(email)
         response = jsonify({"email": email, "message": "logged in"})
@@ -62,9 +61,12 @@ def logout():
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
     if user:
-        return redirect('/')
+        AUTH.destroy_session(user.id)
+        response = redirect('/')
+        response.set_cookie('session_id', '')
+        return response
 
-    return make_response("", 403)
+    return make_response('', 403)
 
 
 @app.route('/profile', methods=['GET'], strict_slashes=False)
