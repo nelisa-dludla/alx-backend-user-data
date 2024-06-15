@@ -12,9 +12,7 @@ from sqlalchemy.orm.exc import NoResultFound
 def _hash_password(password: str) -> str:
     """Returns a hashed version of argument password
     """
-    hashed_password = hashpw(password.encode('utf-8'), gensalt(rounds=12))
-
-    return hashed_password
+    return hashpw(password.encode('utf-8'), gensalt())
 
 
 def _generate_uuid() -> str:
