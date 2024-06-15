@@ -112,7 +112,7 @@ def update_password():
     try:
         user = AUTH.update_password(reset_token, new_password)
         if user:
-            return jsonify({"email": f"{email}", "message": "Password updated"})
+            return jsonify({"email": email, "message": "Password updated"})
     except ValueError:
         return make_response("", 403)
 
