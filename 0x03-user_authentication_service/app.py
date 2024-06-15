@@ -82,7 +82,7 @@ def profile():
 
 
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
-def rest_password():
+def reset_password():
     ''' POST /reset_password
     Return:
       - Jsonified object

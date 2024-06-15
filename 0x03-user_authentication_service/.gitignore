@@ -8,3 +8,4 @@ update_user_test.py
 hash_password_test.py
 register_user_test.py
 valid_login_test.py
+create_session_test.py
