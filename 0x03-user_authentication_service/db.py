@@ -44,7 +44,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
+    def find_user_by(self, **kwargs) -> User:
         '''Find user by kwargs
         '''
         try:
