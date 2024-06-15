@@ -56,7 +56,7 @@ class DB:
 
         return user
 
-    def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         '''Updates user by user_id and kwargs
         '''
         COLUMNS = ['id',
