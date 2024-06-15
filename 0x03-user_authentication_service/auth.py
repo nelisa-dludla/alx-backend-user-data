@@ -12,7 +12,9 @@ from sqlalchemy.orm.exc import NoResultFound
 def _hash_password(password: str) -> str:
     """Returns a hashed version of argument password
     """
-    return hashpw(password.encode('utf-8'), gensalt())
+    hashed_password = hashpw(password.encode('utf-8'), gensalt(rounds=12))
+
+    return hashed_password
 
 
 def _generate_uuid() -> str:
@@ -50,7 +52,7 @@ class Auth:
         except NoResultFound:
             return False
 
-    def create_session(self, email: str) -> str | None:
+    def create_session(self, email: str) -> str:
         '''Creates a session and returns the
         session ID
         '''
@@ -61,7 +63,7 @@ class Auth:
 
             return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> User | None:
+    def get_user_from_session_id(self, session_id: str) -> User:
         '''Returns the User or None if not found
         '''
         user = self._db.find_user_by(session_id=session_id)
